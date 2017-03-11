@@ -1,0 +1,15 @@
+{
+  "name": "heymars",
+  "version": "0.0.1",
+  "description": "heymars description",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --legacy-watch --debug=5858 ./index.js"
+  },
+  "devDependencies": {
+    "nodemon": "1.11.0"
+  },
+  "dependencies": {
+    "express": "4.15.2"
+  }
+}

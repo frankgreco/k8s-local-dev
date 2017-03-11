@@ -1,0 +1,59 @@
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: heymars
+  name: heymars
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: heymars
+  template:
+    metadata:
+      labels:
+        k8s-app: heymars
+    spec:
+      containers:
+      - name: hello-world
+        imagePullPolicy: Always
+        image: fbgrecojr/helloworld:node
+        command:
+        - npm
+        args:
+        - run
+        - dev
+        ports:
+        - containerPort: 8080
+        - containerPort: 5858
+        volumeMounts:
+        - name: code
+          mountPath: /app
+      volumes:
+      - name: code
+        hostPath:
+          path: /Users/gre9521/Documents/projects/kubernetes/minikube
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: heymars
+  namespace: default
+  labels:
+    app: heymars
+spec:
+  selector:
+    k8s-app: heymars
+  ports:
+  - name: app-port
+    port: 8080
+    nodePort: 30005
+  - name: debug-port
+    port: 5858
+    nodePort: 30006
+  type: NodePort
