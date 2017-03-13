@@ -1,5 +1,18 @@
 ---
 
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: heymars
+  namespace: default
+data:
+  default.json: |-
+    {
+        "message": "Hey Mars!"
+    }
+
+---
+
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -32,10 +45,15 @@ spec:
         volumeMounts:
         - name: code
           mountPath: /app
+        - name: configuration
+          mountPath: /app/config
       volumes:
       - name: code
         hostPath:
           path: /Users/gre9521/Documents/projects/kubernetes/minikube
+      - name: configuration
+        configMap:
+          name: heymars
 
 ---
 
